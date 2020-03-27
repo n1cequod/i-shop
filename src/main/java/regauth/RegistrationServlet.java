@@ -15,9 +15,9 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "jdbc:mysql://localhost:3306/my_shop?serverTimezone=UTC";
-        String user = "root";
-        String password = "123456";
+        String dbUrl = "jdbc:mysql://localhost:3306/my_shop?serverTimezone=UTC";
+        String dbUser = "root";
+        String dbPassword = "123456";
 
         Connection myConn = null;
         PreparedStatement myStmt = null;
@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
             String pw = request.getParameter("password");
             String mail = request.getParameter("email");
 
-            myConn = DriverManager.getConnection(url, user, password);
+            myConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
             String sql = "INSERT INTO user_data (first_name, password, email) VALUES (?, ?, ?)";
 
@@ -42,6 +42,8 @@ public class RegistrationServlet extends HttpServlet {
             myStmt.setString(3, mail);
 
             myStmt.executeUpdate();
+
+            response.sendRedirect("index.jsp");
 
         }
 

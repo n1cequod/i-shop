@@ -1,4 +1,4 @@
-<%@tag description="Base Page Tag" pageEncoding="UTF-8"%>
+<%@tag description="Base Page Tag" pageEncoding="UTF-8" isELIgnored="false"%>
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">

@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="content" tagdir="/WEB-INF/tags" %>
 
 <html>
@@ -29,14 +29,16 @@
                     </div>
                 </li>
             </ul>
+
             <form class="form-inline my-2 my-lg-0">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="button">
                     <a href="form-registration.jsp">Регистрация</a>
                 </button>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="button">
-                    <a href="#">Вход</a>
+                    <a href="form-login.jsp">Вход</a>
                 </button>
             </form>
+
         </div>
     </nav>
 </content:base>

@@ -1,12 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="content" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="stmt" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <html>
 <body>
-
 <content:base>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Бренд</a>
+        <a class="navbar-brand" href="index.jsp">Бренд</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,14 +31,27 @@
                 </li>
             </ul>
 
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button">
-                    <a href="form-registration.jsp">Регистрация</a>
-                </button>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button">
-                    <a href="form-login.jsp">Вход</a>
-                </button>
-            </form>
+            <stmt:if test="${user == null}">
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                        <a href="form-registration.jsp">Регистрация</a>
+                    </button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                        <a href="form-login.jsp">Вход</a>
+                    </button>
+                </form>
+            </stmt:if>
+
+            <stmt:if test="${user != null}">
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                        <a href="#">${user.firstName}</a>
+                    </button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                        <a href="LogoutServlet">Выход</a>
+                    </button>
+                </form>
+            </stmt:if>
 
         </div>
     </nav>

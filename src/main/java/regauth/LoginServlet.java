@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
         try {
 
             User user = userDao.checkLogin(email, password);
-            String destPage = "index.jsp";
+            String destPage = "form-login.jsp";
 
             if (user != null) {
                 HttpSession session = request.getSession();
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
                 destPage = "index.jsp";
 
             } else {
-                String message = "Invalid email/password";
+                String message = "Неверно указана электронная почта или пароль. Пожалуйста, попробуйте снова.";
                 request.setAttribute("message", message);
             }
 

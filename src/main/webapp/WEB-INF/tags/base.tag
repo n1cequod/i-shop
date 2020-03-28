@@ -1,9 +1,9 @@
 <%@tag description="Base Page Tag" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ attribute name="loginError" fragment="true" required="false" %>
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
-
 
 <html>
     <body>

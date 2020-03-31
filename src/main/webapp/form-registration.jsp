@@ -17,15 +17,15 @@
             <h1>Форма регистрации</h1>
             <form action="RegistrationServlet" method="POST">
                 <div class="form-group">
-                    <label for="InputName">Name</label>
+                    <label for="InputName">Имя</label>
                     <input type="text" class="form-control" id="InputName" aria-describedby="nameHelp" name="firstName">
                 </div>
                 <div class="form-group">
-                    <label for="InputEmail">Email address</label>
+                    <label for="InputEmail">Электронная почта</label>
                     <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" name="email">
                 </div>
                 <div class="form-group">
-                    <label for="InputPassword">Password</label>
+                    <label for="InputPassword">Пароль</label>
                     <input type="password" class="form-control" id="InputPassword" name="password">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

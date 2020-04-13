@@ -1,5 +1,8 @@
-package regauth;
+package servlets.regauth;
 
+import connection.ConnectionManager;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 @WebServlet("/RegistrationServlet")
@@ -15,27 +17,22 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String dbUrl = "jdbc:mysql://localhost:3306/my_shop?serverTimezone=UTC";
-        String dbUser = "root";
-        String dbPassword = "123456";
-
-        Connection myConn = null;
+        Connection connection = null;
         PreparedStatement myStmt = null;
+        String displayPage = "index.jsp";
 
         try {
 
-            String dbDriver = "com.mysql.cj.jdbc.Driver";
-            Class.forName(dbDriver);
-
+            request.setCharacterEncoding("UTF-8");
             String firstName = request.getParameter("firstName");
             String pw = request.getParameter("password");
-            String mail = request.getParameter("email");
+            String mail = request.getParameter("email").toLowerCase();
 
-            myConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            connection = ConnectionManager.getConnaction();
 
             String sql = "INSERT INTO user_data (first_name, password, email) VALUES (?, ?, ?)";
 
-            myStmt = myConn.prepareStatement(sql);
+            myStmt = connection.prepareStatement(sql);
 
             myStmt.setString(1, firstName);
             myStmt.setString(2, pw);
@@ -43,14 +40,18 @@ public class RegistrationServlet extends HttpServlet {
 
             myStmt.executeUpdate();
 
-            response.sendRedirect("index.jsp");
 
         }
 
-        catch (Exception exc) {
-            exc.printStackTrace();
+        catch (Exception e) {
+            String message = "Пользователь с таким электронным адресом уже зарегистрирован";
+            request.setAttribute("message", message);
+            displayPage = "form-registration.jsp";
+            e.printStackTrace();
         }
 
+        RequestDispatcher dispatcher = request.getRequestDispatcher(displayPage);
+        dispatcher.forward(request, response);
 
     }
 

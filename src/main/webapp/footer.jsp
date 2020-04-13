@@ -5,12 +5,14 @@
 <body>
 
 <content:base>
-<div class="jumbotron fixed-bottom">
-    <div class="container">
-        <p>This is footer</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet cum dolorum eius error esse explicabo facilis harum laboriosam molestias nisi odio officiis omnis porro quam, quidem repellendus saepe sequi, vitae.</p>
+
+    <div class="navbar fixed-bottom navbar-light bg-light">
+        <div class="container">
+            <p>This is footer</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet cum dolorum eius error esse explicabo facilis harum laboriosam molestias nisi odio officiis omnis porro quam, quidem repellendus saepe sequi, vitae.</p>
+        </div>
     </div>
-</div>
+
 </content:base>
 
 </body>

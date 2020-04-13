@@ -1,22 +1,19 @@
-package regauth;
+package dao;
 
+import connection.ConnectionManager;
 import entity.User;
 
 import java.sql.*;
 
 public class UserDAO {
 
+    Connection connection = null;
+
     public User checkLogin(String email, String password) throws SQLException,
             ClassNotFoundException {
 
-        String dbUrl = "jdbc:mysql://localhost:3306/my_shop?serverTimezone=UTC";
-        String dbUser = "root";
-        String dbPassword = "123456";
+        Connection connection = ConnectionManager.getConnaction();
 
-        String dbDriver = "com.mysql.cj.jdbc.Driver";
-        Class.forName(dbDriver);
-
-        Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
         String sql = "SELECT * FROM user_data WHERE email = ? and password = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, email);

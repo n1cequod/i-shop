@@ -1,4 +1,4 @@
-package regauth;
+package servlets.regauth;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -1,5 +1,6 @@
-package regauth;
+package servlets.regauth;
 
+import dao.UserDAO;
 import entity.User;
 
 import javax.servlet.RequestDispatcher;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 
 @WebServlet("/LoginServlet")
@@ -27,25 +27,25 @@ public class LoginServlet extends HttpServlet {
         try {
 
             User user = userDao.checkLogin(email, password);
-            String destPage = "form-login.jsp";
+            String displayPage = "form-login.jsp";
 
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                destPage = "index.jsp";
+                displayPage = "index.jsp";
 
             } else {
                 String message = "Неверно указана электронная почта или пароль. Пожалуйста, попробуйте снова.";
                 request.setAttribute("message", message);
             }
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(displayPage);
             dispatcher.forward(request, response);
 
         }
 
-        catch (SQLException | ClassNotFoundException ex) {
-            throw new ServletException(ex);
+        catch (SQLException | ClassNotFoundException e) {
+            throw new ServletException(e);
         }
     }
 

@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="content" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="stmt" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -15,7 +15,7 @@
                         <stmt:if test="${user != null}">
                             <div class="jumbotron">
                                 <div class="container">
-                                    <p class="lead">Hello In Base ${user.email} ${user.firstName}</p>
+                                    <p class="lead">Hello In Base ${user.email} ${user.firstName} ${user.id}</p>
                                 </div>
                             </div>
                         </stmt:if>

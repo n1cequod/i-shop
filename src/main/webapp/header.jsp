@@ -3,6 +3,7 @@
 <%@taglib prefix="stmt" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+
 <html>
 <body>
 <content:base>
@@ -22,15 +23,21 @@
                         Каталог товаров
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Одежда</a>
-                        <a class="dropdown-item" href="FootwearDisplayServlet">Обувь</a>
+                        <a class="dropdown-item" href="ProductDisplayServlet?category=outerwear">Одежда</a>
+                        <a class="dropdown-item" href="ProductDisplayServlet?category=footwear">Обувь</a>
                     </div>
                 </li>
             </ul>
 
+<%--            Если пользователь не авторизован--%>
             <stmt:if test="${user == null}">
                 <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-4" type="button">
+                        <a href="cart.jsp">
+                            <i class="fa fa-shopping-cart" style="font-size:24px"> </i>
+                        </a>
+                    </button>
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-1" type="button">
                         <a href="form-registration.jsp">Регистрация</a>
                     </button>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="button">
@@ -39,9 +46,15 @@
                 </form>
             </stmt:if>
 
+<%--            Если пользователь авторизовался--%>
             <stmt:if test="${user != null}">
                 <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-4" type="button">
+                        <a href="cart.jsp">
+                            <i class="fa fa-shopping-cart" style="font-size:24px"> </i>
+                        </a>
+                    </button>
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-1" type="button">
                         <a href="#">${user.firstName}</a>
                     </button>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="button">

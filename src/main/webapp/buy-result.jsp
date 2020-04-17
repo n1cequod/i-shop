@@ -20,8 +20,8 @@
                 </stmt:if>
 
                 <stmt:if test="${sessionScope.user != null}">
-                    <div class="alert alert-success" role="alert">
-                            <h1>Привет! Зареганный</h1>
+                    <div class="alert alert-success text-center" role="alert">
+                            Спасибо за покупку. Приходите к нам еще!
                     </div>
                 </stmt:if>
 

@@ -36,7 +36,7 @@
                     <label for="InputPassword">Пароль</label>
                     <input type="password" class="form-control" id="InputPassword" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Регистрация</button>
             </form>
         </div>
     </div>

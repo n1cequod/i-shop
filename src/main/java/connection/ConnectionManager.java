@@ -6,9 +6,9 @@ import java.util.Properties;
 
 public class ConnectionManager {
 
-        public static Connection getConnaction() {
+        public static Connection getConnection() {
 
-            Connection conn = null;
+            Connection connection = null;
 
             try {
 
@@ -23,14 +23,12 @@ public class ConnectionManager {
                 String dbDriver = props.getProperty("dbDriver");
                 Class.forName(dbDriver);
 
-                conn = java.sql.DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-
+                connection = java.sql.DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return conn;
+            return connection;
         }
     }

@@ -23,7 +23,7 @@
                             <p class="card-text"><strong>Размер: </strong>${item.size}</p>
                             <p class="card-text"><strong>Описание: </strong>${item.description}</p>
                             <p class="card-text"><strong>Цена: </strong>${item.price} руб.</p>
-                            <a href="CartServlet?id=${item.id}" class="btn btn-primary">Добавить в корзину</a>
+                            <a href="CartServlet?id=${item.id}&action=add" class="btn btn-primary">Добавить в корзину</a>
                         </div>
                     </div>
                 </div>

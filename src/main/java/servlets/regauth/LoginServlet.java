@@ -44,8 +44,8 @@ public class LoginServlet extends HttpServlet {
 
         }
 
-        catch (SQLException | ClassNotFoundException e) {
-            throw new ServletException(e);
+        catch (SQLException | ClassNotFoundException err) {
+            throw new ServletException(err);
         }
     }
 

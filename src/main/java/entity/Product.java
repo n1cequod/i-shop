@@ -14,6 +14,10 @@ public class Product {
 
     }
 
+    public Product (int id) {
+        this.id = id;
+    }
+
     public Product (int id, String category, String label, int size, int price, String photo, String description) {
         this.id = id;
         this.category = category;

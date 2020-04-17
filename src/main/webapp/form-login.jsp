@@ -42,7 +42,7 @@
                     <label for="InputPassword">Пароль</label>
                     <input type="password" class="form-control" id="InputPassword" name="loginPassword">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Войти</button>
             </form>
         </div>
     </div>

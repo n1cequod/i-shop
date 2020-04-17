@@ -42,9 +42,13 @@
                                 </div>
                             </td>
                             <td class="align-middle text-center" id="price"><strong>&#8381;${item.product.price}</strong></td>
-                            <td class="align-middle text-center" id="qnty"><strong>${item.quantity}</strong></td>
+                            <td class="align-middle text-center" id="qnty">
+                                <a href="CartServlet?id=${item.product.id}&action=removeOne"><i class="fa fa-minus"></i></a>
+                                <strong>${item.quantity}</strong>
+                                <a href="CartServlet?id=${item.product.id}&action=add"><i class="fa fa-plus"></i></a>
+                            </td>
                             <td class="align-middle text-center">
-                                <a href="#" class="text-dark"><i class="fa fa-trash"></i></a>
+                                <a href="CartServlet?id=${item.product.id}&action=removeAll" class="text-dark"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         </loop:forEach>
@@ -56,6 +60,7 @@
                         </loop:forEach>
 
 <%--                        Кнопка "Купить"--%>
+                        <stmt:if test="${totalSum != 0}">
                         <tr>
                             <td></td>
                             <td class="align-middle text-center">
@@ -70,13 +75,14 @@
                                 </a>
                             </td>
                         </tr>
+                        </stmt:if>
                         </tbody>
                     </table>
                     </stmt:if>
 
 <%--                    Если корзина пустая--%>
-                    <stmt:if test="${sessionScope.cart == null}">
-                    <div class="alert alert-success text-center" role="alert">
+                    <stmt:if test="${totalSum == 0 || sessionScope.cart == null}">
+                    <div class="alert alert-info text-center font-weight-normal" role="alert">
                         <span class="align-baseline text-center">Корзина пуста</span>
                     </div>
                     </stmt:if>

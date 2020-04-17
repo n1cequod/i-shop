@@ -16,7 +16,7 @@ public class ProductDAO {
 
         try {
 
-            connection = ConnectionManager.getConnaction();
+            connection = ConnectionManager.getConnection();
             String sql = "SELECT * FROM goods WHERE category = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, category);
@@ -51,11 +51,10 @@ public class ProductDAO {
     public static Product find(int id) throws SQLException {
 
         Connection connection = null;
-        List productList = new LinkedList();
         Product product = null;
 
         try {
-            connection = ConnectionManager.getConnaction();
+            connection = ConnectionManager.getConnection();
             String sql = "SELECT * FROM goods WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);

@@ -8,19 +8,19 @@
         <header>
             <jsp:include page="header.jsp"/>
         </header>
-
             <content:base>
-                <div class="jumbotron">
+                <div class="pb-5 mt-5">
                     <div class="container">
-                        <stmt:if test="${user != null}">
-                            <div class="jumbotron">
-                                <div class="container">
-                                    <p class="lead">Hello In Base ${user.email} ${user.firstName} ${user.id}</p>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                                <stmt:if test="${user != null}">
+                                    <p class="lead"><strong>Здравствуйте, ${user.firstName}!</strong></p>
+                                </stmt:if>
+                                <p>
+                                    Добро пожаловать в интернет-магазин детской одежды и обуви!
+                                </p>
                             </div>
-                        </stmt:if>
-
-                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquid aspernatur, dolorem doloremque earum, error exercitationem facilis fuga minus odit pariatur possimus quas quidem sapiente sunt temporibus ut veritatis vero.</p>
+                        </div>
                     </div>
                 </div>
             </content:base>

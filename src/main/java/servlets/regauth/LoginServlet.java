@@ -2,6 +2,7 @@ package servlets.regauth;
 
 import dao.UserDAO;
 import entity.User;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
+@Slf4j
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
@@ -25,7 +26,6 @@ public class LoginServlet extends HttpServlet {
         UserDAO userDao = new UserDAO();
 
         try {
-
             User user = userDao.checkLogin(email, password);
             String displayPage = "form-login.jsp";
 
@@ -41,11 +41,9 @@ public class LoginServlet extends HttpServlet {
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(displayPage);
             dispatcher.forward(request, response);
-
         }
-
         catch (SQLException | ClassNotFoundException err) {
-            throw new ServletException(err);
+            log.error("Ошибка при логировании пользователя " + err);
         }
     }
 

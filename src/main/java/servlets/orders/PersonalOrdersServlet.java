@@ -1,9 +1,10 @@
 package servlets.orders;
 
 import dao.OrderDAO;
-import dao.ProductDAO;
 import entity.Order;
 import entity.User;
+import lombok.extern.slf4j.Slf4j;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @WebServlet("/PersonalOrdersServlet")
 public class PersonalOrdersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,33 +24,44 @@ public class PersonalOrdersServlet extends HttpServlet {
     }
 
     /**
-     * Метод предназначен для получения из orderDAO всех заказов
+     * Метод распределяет запрос на исполнение в зависимсоти от переменной action
+     * Данные о action передаются из personal-orders.jsp
      * */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
 
-
         if (action.equals("getOrdersId")) {
-            doGetOrdersId(request, response);
-        }
+            try {
+                doGetOrdersId(request, response);
+            }
+            catch (ServletException | IOException err) {
+                log.error("Ошибка получения ИД заказов метод PersonalOrdersServlet.doGetOrdersId" + err);
+            }
 
+        }
         else if (action.equals("getOrderDetail")) {
-            doGetOrderDetail(request, response);
+            try {
+                doGetOrderDetail(request, response);
+            }
+            catch (ServletException | IOException err) {
+                log.error("Ошибка получения ИД заказов метод PersonalOrdersServlet.doGetOrdersId" + err);
+            }
         }
-
     }
 
+    /**
+     * Метод для получения уникальных ИД заказов.
+     * Получение происходит по ИД пользователя.
+     * */
     protected void doGetOrdersId (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
-        List ordersIdList;
-        User user = (User) session.getAttribute("user");
-
+        List <Order> ordersIdList;
         OrderDAO orderDAO = new OrderDAO();
 
-        //Для получения ИД заказов и времени заказов пользователя из orders_data
+        User user = (User) session.getAttribute("user");
+
         ordersIdList = orderDAO.getUserOrdersId(user.getId());
         request.setAttribute("ordersIdList", ordersIdList);
 
@@ -58,15 +70,16 @@ public class PersonalOrdersServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    /**
+     * Метод для получения всех товаров из конкретного заказа
+     * */
     protected void doGetOrderDetail (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List productList;
+        List<Order> productList;
+        OrderDAO orderDAO = new OrderDAO();
 
         int orderId = Integer.parseInt(request.getParameter("id"));
 
-        OrderDAO orderDAO = new OrderDAO();
-
-        //Для получения всех закзаов пользователя из orders_data
         productList = orderDAO.getUserOrderDetails(orderId);
         request.setAttribute("productList", productList);
 
@@ -74,5 +87,4 @@ public class PersonalOrdersServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher(displayPage);
         dispatcher.forward(request, response);
     }
-
 }

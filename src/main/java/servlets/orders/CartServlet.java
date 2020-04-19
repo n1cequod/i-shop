@@ -2,6 +2,7 @@ package servlets.orders;
 
 import dao.ProductDAO;
 import entity.Item;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @WebServlet("/CartServlet")
 public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 
     /**
@@ -53,8 +54,8 @@ public class CartServlet extends HttpServlet {
 
         try {
             if (session.getAttribute("cart") == null) {
-                List<Item> cart = new ArrayList<Item>();
-                cart.add(new Item(productDAO.find(id), 1));
+                List<Item> cart = new ArrayList<>();
+                cart.add(new Item(productDAO.getProductById(id), 1));
                 session.setAttribute("cart", cart);
             }
             else {
@@ -62,7 +63,7 @@ public class CartServlet extends HttpServlet {
                 int checkId = existenceCheck(cart, id);
 
                 if (checkId == -1) {
-                    cart.add(new Item(productDAO.find(id), 1));
+                    cart.add(new Item(productDAO.getProductById(id), 1));
                 }
                 else {
                     int quantity = cart.get(checkId).getQuantity() + 1;
@@ -72,8 +73,9 @@ public class CartServlet extends HttpServlet {
             }
             response.sendRedirect(request.getHeader("referer"));
 
-        } catch (Exception err) {
-            err.printStackTrace();
+        }
+        catch (Exception err) {
+            log.error("Ошибка при покупке товара (метод doGetBuy) " + err);
         }
     }
 
@@ -99,19 +101,18 @@ public class CartServlet extends HttpServlet {
             else {
                 quantity = cart.get(checkId).getQuantity() - 1;
                 cart.get(checkId).setQuantity(quantity);
+                response.sendRedirect(request.getHeader("referer"));
             }
             session.setAttribute("cart", cart);
-            response.sendRedirect(request.getHeader("referer"));
         }
         catch (Exception err){
-            err.printStackTrace();
+            log.error("Ошибка при удалении одного товара из корзины (метод doGetRemoveOne) " + err);
         }
     }
 
     /**
      * Метод полностью удаляет товар из корзины
      * */
-
     protected void doGetRemoveAll (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();

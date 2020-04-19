@@ -5,13 +5,39 @@
 <body>
 
 <content:base>
-
-    <div class="navbar fixed-bottom navbar-light bg-light">
-        <div class="container">
-            <p>This is footer</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet cum dolorum eius error esse explicabo facilis harum laboriosam molestias nisi odio officiis omnis porro quam, quidem repellendus saepe sequi, vitae.</p>
+    <footer class="page-footer font-small blue pt-4 fixed-bottom bg-light">
+        <div class="container-fluid text-center text-md-left ">
+            <div class="row">
+                <div class="col-md-4 mt-md-0 mt-3 pl-4">
+                    <h5>Информация о проекте</h5>
+                    <div class="col p-0 w-75">
+                        Интернет-магазин разработна в качестве курсового проекта в рамках обучения на курсе Java Junior Developer от ИТ-Парк
+                    </div>
+                </div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-4 mb-md-0 mb-3 text-center">
+                    <h5>Информация</h5>
+                    <p>Здесь может быть ваша реклама :)))</p>
+                </div>
+                <div class="col-md-4 mb-md-0 mb-3 text-center">
+                    <h5>Информация</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/aleksey-tsyganov">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="#">Резюме на HH</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center" style="background-color: #83d7f3">
+            Developed by Алексей Цыганов
+        </div>
+    </footer>
 
 </content:base>
 

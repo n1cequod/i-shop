@@ -26,7 +26,6 @@ public class Product {
         this.price = price;
         this.photo = photo;
         this.description = description;
-
     }
 
     public int getId() {

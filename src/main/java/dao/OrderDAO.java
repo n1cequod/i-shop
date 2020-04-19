@@ -4,12 +4,16 @@ import connection.ConnectionManager;
 import entity.Order;
 import entity.Product;
 import entity.User;
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 public class OrderDAO {
 
+    ConnectionManager connectionManager = new ConnectionManager();
     Connection connection = null;
     PreparedStatement statement = null;
 
@@ -17,11 +21,10 @@ public class OrderDAO {
      * Метод добавлять данные о заказе и пользователе в БД order_data.
      * Метод вызывается из BuyServlet
      * */
-
     public void insert(int orderId, Timestamp orderTime, int userId, int productId, int quantity) {
 
         try {
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "INSERT INTO orders_data (order_id, client_id, product_id, product_quantity, order_time) VALUES (?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, orderId);
@@ -30,9 +33,12 @@ public class OrderDAO {
             statement.setInt(4, quantity);
             statement.setTimestamp(5, orderTime);
             statement.executeUpdate();
-
-        } catch (Exception err) {
-        err.printStackTrace();
+        }
+        catch (Exception err) {
+            log.error("Ошибка при добавлении данных в БД (метод OrderDAO.insert) " + err);
+        }
+        finally {
+            connectionManager.closeConnection();
         }
     }
 
@@ -42,11 +48,10 @@ public class OrderDAO {
      * Если null, то присваивается значение 1
      * Метод вызывается из BuyServlet
      * */
-
     public int generateOrderId () {
 
         try {
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "SELECT MAX(order_id) FROM orders_data";
             statement = connection.prepareStatement(sql);
             ResultSet result = statement.executeQuery();
@@ -56,7 +61,10 @@ public class OrderDAO {
             }
         }
         catch (Exception err){
-            err.printStackTrace();
+            log.error("Ошибка при генерации номера заказа (метод OrderDAO.generateOrderId) " + err);
+        }
+        finally {
+            connectionManager.closeConnection();
         }
         return 1;
     }
@@ -66,16 +74,15 @@ public class OrderDAO {
      * Запрос просиходит из PersonalOrdersServlet
      * Для отображения в personal-orders.jsp
      * */
+    public List <Order> getUserOrdersId(int id) {
 
-    public List getUserOrdersId(int id) {
-
-        List orderIdList = new LinkedList();
+        List<Order> orderIdList = new LinkedList<>();
         int userOrderId;
         Timestamp timestamp;
         Order order;
 
         try {
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "SELECT DISTINCT order_id, order_time FROM orders_data WHERE client_id = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -88,8 +95,11 @@ public class OrderDAO {
                 orderIdList.add(order);
             }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        catch (Exception err){
+            log.error("Ошибка при получении id заказаов (метод OrderDAO.getUserOrdersId) " + err);
+        }
+        finally {
+            connectionManager.closeConnection();
         }
         return orderIdList;
     }
@@ -98,20 +108,19 @@ public class OrderDAO {
      * Метод для получения детализированной информации о заказае.
      * Происходит получение всех товаров по определенному id заказа
      * */
-
     public List<Order> getUserOrderDetails(int orderId){
 
-        List orderDetailList = new LinkedList();
+        List<Order> orderDetailList = new LinkedList <>();
 
         Product product;
-        ProductDAO productDAO = null;
+        ProductDAO productDAO = new ProductDAO();
         User user;
         Order order;
         int quantity;
         Timestamp timestamp;
 
         try {
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "SELECT * FROM orders_data WHERE order_id = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, orderId);
@@ -119,17 +128,19 @@ public class OrderDAO {
 
             while (result.next()) {
                 user = new User();
-
                 user.setId(result.getInt("client_id"));
                 timestamp = result.getTimestamp("order_time");
-                product = productDAO.find(result.getInt("product_id"));
+                product = productDAO.getProductById(result.getInt("product_id"));
                 quantity = result.getInt("product_quantity");
                 order = new Order(orderId, timestamp, user, product, quantity);
                 orderDetailList.add(order);
             }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        catch (Exception err){
+            log.error("Ошибка при получении всех товаров из заказа (метод OrderDAO.getUserOrderDetails) " + err);
+        }
+        finally {
+            connectionManager.closeConnection();
         }
         return orderDetailList;
     }

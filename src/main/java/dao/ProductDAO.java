@@ -2,27 +2,35 @@ package dao;
 
 import connection.ConnectionManager;
 import entity.Product;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 public class ProductDAO {
 
-    public List<Product> getProduct (String category) throws SQLException {
+    private Connection connection;
+    private PreparedStatement statement;
+    ConnectionManager connectionManager = new ConnectionManager();
+    Product product = new Product();
 
-        Connection connection = null;
-        List productList = new LinkedList();
+    /**
+     * Метод для получения всех продуктов определенной категории
+     * Вызов происходит из ProductDisplayServlet
+     * Возвращает список товаров
+     * */
+    public List<Product> getAllProducts (String category) {
+
+        List <Product> productList = new LinkedList<>();
 
         try {
-
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "SELECT * FROM goods WHERE category = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, category);
             ResultSet result = statement.executeQuery();
-
-            Product product = null;
 
             while (result.next()) {
                 product = new Product();
@@ -34,29 +42,26 @@ public class ProductDAO {
                 product.setPhoto(result.getString("photo"));
                 productList.add(product);
             }
-
-        } catch (SQLException err){
-            err.printStackTrace();
         }
-
-        connection.close();
-
+        catch (SQLException err){
+            log.error("Ошибка при получении товара по id (метод ProductDAO.getProduct) " + err);
+        }
+        finally {
+            connectionManager.closeConnection();
+        }
         return productList;
     }
 
     /**
      * Метод для получения одного Продукта по id.
+     * Вызывается из OrderDAO, CartServlet
      * */
-
-    public static Product find(int id) throws SQLException {
-
-        Connection connection = null;
-        Product product = null;
+    public Product getProductById(int id) {
 
         try {
-            connection = ConnectionManager.getConnection();
+            connection = connectionManager.getConnection();
             String sql = "SELECT * FROM goods WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
 
@@ -70,17 +75,13 @@ public class ProductDAO {
                 product.setDescription(result.getString("description"));
                 product.setPhoto(result.getString("photo"));
             }
-
         }
         catch (Exception err) {
-            err.printStackTrace();
+            log.error("Ошибка при получении товара по id (метод ProductDAO.find) " + err);
         }
-
         finally {
-            connection.close();
+            connectionManager.closeConnection();
         }
-
         return product;
     }
-
 }

@@ -11,7 +11,6 @@ public class Order {
     private int quantity;
 
     public Order () {
-
     }
 
     public Order (int orderId, Timestamp orderTime){

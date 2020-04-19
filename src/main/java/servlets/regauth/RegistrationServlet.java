@@ -1,7 +1,8 @@
 package servlets.regauth;
 
-import connection.ConnectionManager;
 
+import dao.UserDAO;
+import lombok.extern.slf4j.Slf4j;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,49 +10,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
+
+@Slf4j
 @WebServlet("/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Connection connection = null;
-        PreparedStatement statement = null;
+        boolean isUser;
         String displayPage = "index.jsp";
 
+        UserDAO userDAO = new UserDAO();
+
+        request.setCharacterEncoding("UTF-8");
+        String firstName = request.getParameter("firstName");
+        String pw = request.getParameter("password");
+        String email = request.getParameter("email").toLowerCase();
+
         try {
-
-            request.setCharacterEncoding("UTF-8");
-            String firstName = request.getParameter("firstName");
-            String pw = request.getParameter("password");
-            String email = request.getParameter("email").toLowerCase();
-
-            connection = ConnectionManager.getConnection();
-
-            String sql = "INSERT INTO user_data (first_name, password, email) VALUES (?, ?, ?)";
-
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, firstName);
-            statement.setString(2, pw);
-            statement.setString(3, email);
-
-            statement.executeUpdate();
-
+            isUser = userDAO.userRegistration(firstName, pw, email);
+            if (!isUser) {
+                String message = "Пользователь уже зарегистрирован в система";
+                request.setAttribute("message", message);
+                displayPage = "form-registration.jsp";
+            }
         }
-
         catch (Exception err) {
-            String message = "Пользователь с таким электронным адресом уже зарегистрирован";
-            request.setAttribute("message", message);
-            displayPage = "form-registration.jsp";
-            err.printStackTrace();
+            log.error("Ошибка при регистрации " + err);
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(displayPage);
         dispatcher.forward(request, response);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

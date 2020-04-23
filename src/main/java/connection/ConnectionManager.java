@@ -7,23 +7,30 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Класс для управления подключением  к БД
+ * */
 @Slf4j
 public class ConnectionManager {
 
     private Connection connection;
 
+    /**
+     * Метод для создания подключения к БД
+     * @return соединение
+     * */
     public Connection getConnection() {
 
         try {
             InputStream appProp = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties");
-            Properties props = new Properties();
-            props.load(appProp);
+            Properties properties = new Properties();
+            properties.load(appProp);
 
-            String dbUrl = props.getProperty("dbUrl");
-            String dbUser = props.getProperty("dbUser");
-            String dbPassword = props.getProperty("dbPassword");
+            String dbUrl = properties.getProperty("dbUrl");
+            String dbUser = properties.getProperty("dbUser");
+            String dbPassword = properties.getProperty("dbPassword");
 
-            String dbDriver = props.getProperty("dbDriver");
+            String dbDriver = properties.getProperty("dbDriver");
             Class.forName(dbDriver);
 
             connection = java.sql.DriverManager.getConnection(dbUrl, dbUser, dbPassword);
@@ -34,8 +41,10 @@ public class ConnectionManager {
         return connection;
     }
 
+    /**
+     * Метод для закрытия подключения
+     * */
     public void closeConnection () {
-
         if (connection != null){
             try {
                 connection.close();

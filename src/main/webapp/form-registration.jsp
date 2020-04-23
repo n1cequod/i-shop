@@ -26,21 +26,20 @@
             <form action="RegistrationServlet" method="POST">
                 <div class="form-group">
                     <label for="InputName">Имя</label>
-                    <input type="text" class="form-control" id="InputName" aria-describedby="nameHelp" name="firstName">
+                    <input type="text" class="form-control" id="InputName" aria-describedby="nameHelp" name="firstName" required>
                 </div>
                 <div class="form-group">
                     <label for="InputEmail">Электронная почта</label>
-                    <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" name="email">
+                    <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" name="email" required>
                 </div>
                 <div class="form-group">
                     <label for="InputPassword">Пароль</label>
-                    <input type="password" class="form-control" id="InputPassword" name="password">
+                    <input type="password" class="form-control" id="InputPassword" name="pswd" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Регистрация</button>
             </form>
         </div>
     </div>
-
 </content:base>
 
 <footer>

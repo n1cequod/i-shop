@@ -3,39 +3,47 @@ package dao;
 import connection.ConnectionManager;
 import entity.User;
 import lombok.extern.slf4j.Slf4j;
+
 import java.sql.*;
 
+/**
+ * Класс для получения пользователя
+ * */
 @Slf4j
 public class UserDAO {
 
-    Connection connection;
-    PreparedStatement statement;
+    private Connection connection;
+    private PreparedStatement statement;
+    ResultSet resultSet;
     private ConnectionManager connectionManager = new ConnectionManager();
 
     /**
      * Метод для логирования пользователя
+     * @param email электронная почта указанная при аутентификации
+     * @param password пароль указанный при аутентификации
+     * @return пользователя
      * */
-    public User checkLogin(String email, String password) throws SQLException, ClassNotFoundException {
+    public User checkLogin(String email, String password) {
 
         User user = null;
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT * FROM user_data WHERE email = ? and password = ?";
+            String sql = UserQueries.SELECT_USER;
             statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             statement.setString(2, password);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            if (result.next()) {
+            if (resultSet.next()) {
                 user = new User();
-                user.setFirstName(result.getString("first_name"));
+                user.setFirstName(resultSet.getString("first_name"));
                 user.setEmail(email);
-                user.setId(result.getInt("id"));
+                user.setId(resultSet.getInt("id"));
             }
         }
         catch (SQLException err) {
-            log.error("Ошибка подключения к БД (метод UserDAO.checkLogin()) " + err);
+            log.error("Ошибка при обращении к БД(метод UserDAO.checkLogin()) " + err);
         }
         finally {
             connectionManager.closeConnection();
@@ -47,14 +55,18 @@ public class UserDAO {
      * Метод для регистрации пользователя.
      * Вызывается из RegistrationServlet.
      * Если пользователя с email уже существует, возвращает false, в ином случае возвращает true
+     * @param firstName имя, указанное при регистрации
+     * @param password пароль, указанный при регистрации
+     * @param email эл. почта, указанная при регистрации
+     * @return false если пользователь регистрировался ранее, если пользователь новый - true
      * */
-    public boolean userRegistration (String firstName, String password, String email) throws SQLException {
+    public boolean userRegistration (String firstName, String password, String email) {
 
         boolean isUser = false;
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "INSERT INTO user_data (first_name, password, email) VALUES (?, ?, ?)";
+            String sql = UserQueries.INSERT_USER;
             statement = connection.prepareStatement(sql);
             statement.setString(1, firstName);
             statement.setString(2, password);
@@ -63,7 +75,7 @@ public class UserDAO {
             isUser = true;
         }
         catch (SQLException err) {
-            log.error("Пользователь с таким имнем уже существует " + err);
+            log.error("Ошибка при обращении к БД (метод userRegistration)", err);
         }
         finally {
             connectionManager.closeConnection();

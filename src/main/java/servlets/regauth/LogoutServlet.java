@@ -1,5 +1,10 @@
 package servlets.regauth;
 
+import enums.Message;
+import enums.Page;
+import lombok.extern.slf4j.Slf4j;
+import utils.ServletUtil;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +14,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+
+/**
+ * Сервлет для выхода из системы
+ * */
+@Slf4j
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * Метод для выхода
+     * @param request запрос
+     * @param response ответ
+     * */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.removeAttribute("user");
-            String logOutMessage = "Всего хорошего. Будем рады видеть Вас снова!";
+            String logOutMessage = Message.LOGOUT_MSG.getMessage();
             request.setAttribute("logOutMessage", logOutMessage);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("form-login.jsp");
-            dispatcher.forward(request, response);
+            ServletUtil.redirectDispatcher(request, response, Page.FORM_LOGIN_PAGE.getPage());
         }
     }
 }

@@ -10,28 +10,33 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Класс для получения заказов
+ * */
 @Slf4j
 public class OrderDAO {
 
+    private Connection connection = null;
+    private PreparedStatement statement = null;
+    private ResultSet resultSet;
     ConnectionManager connectionManager = new ConnectionManager();
-    Connection connection = null;
-    PreparedStatement statement = null;
 
     /**
-     * Метод добавлять данные о заказе и пользователе в БД order_data.
+     * Метод добавляет данные о заказе и пользователе в БД order_data.
      * Метод вызывается из BuyServlet
+     * @param order объект заказ
      * */
-    public void insert(int orderId, Timestamp orderTime, int userId, int productId, int quantity) {
+    public void insert(Order order) {
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "INSERT INTO orders_data (order_id, client_id, product_id, product_quantity, order_time) VALUES (?, ?, ?, ?, ?)";
+            String sql = OrderQueries.INSERT_ORDER_DATA;
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, orderId);
-            statement.setInt(2, userId);
-            statement.setInt(3, productId);
-            statement.setInt(4, quantity);
-            statement.setTimestamp(5, orderTime);
+            statement.setInt(1, order.getOrderId());
+            statement.setInt(2, order.getUser().getId());
+            statement.setInt(3, order.getProduct().getId());
+            statement.setInt(4, order.getQuantity());
+            statement.setTimestamp(5, order.getOrderTime());
             statement.executeUpdate();
         }
         catch (Exception err) {
@@ -45,19 +50,19 @@ public class OrderDAO {
     /**
      * Метод для генерации номера заказа.
      * Происходит поиск максимального order_id в БД orders_data и увеличивается на один.
-     * Если null, то присваивается значение 1
      * Метод вызывается из BuyServlet
+     * @return номер последнего заказа увеличенный на 1; 1 если заказов не было
      * */
     public int generateOrderId () {
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT MAX(order_id) FROM orders_data";
+            String sql = OrderQueries.SELECT_MAX_ORDER_ID;
             statement = connection.prepareStatement(sql);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            if (result.next()) {
-                return result.getInt("MAX(order_id)") + 1;
+            if (resultSet.next()) {
+                return resultSet.getInt("MAX(order_id)") + 1;
             }
         }
         catch (Exception err){
@@ -71,8 +76,10 @@ public class OrderDAO {
 
     /**
      * Метод для получения id и времени всех заказов пользователя.
-     * Запрос просиходит из PersonalOrdersServlet
+     * Запрос происходит из PersonalOrdersServlet
      * Для отображения в personal-orders.jsp
+     * @param id идентификатор клиента
+     * @return список заказов
      * */
     public List <Order> getUserOrdersId(int id) {
 
@@ -83,14 +90,14 @@ public class OrderDAO {
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT DISTINCT order_id, order_time FROM orders_data WHERE client_id = ?";
+            String sql = OrderQueries.SELECT_ORDER_ID_AND_TIME;
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            while (result.next()) {
-                userOrderId = result.getInt("order_id");
-                timestamp = result.getTimestamp("order_time");
+            while (resultSet.next()) {
+                userOrderId = resultSet.getInt("order_id");
+                timestamp = resultSet.getTimestamp("order_time");
                 order = new Order(userOrderId, timestamp);
                 orderIdList.add(order);
             }
@@ -107,11 +114,12 @@ public class OrderDAO {
     /**
      * Метод для получения детализированной информации о заказае.
      * Происходит получение всех товаров по определенному id заказа
+     * @param orderId идентификатор заказа
+     * @return Список заказов
      * */
     public List<Order> getUserOrderDetails(int orderId){
 
         List<Order> orderDetailList = new LinkedList <>();
-
         Product product;
         ProductDAO productDAO = new ProductDAO();
         User user;
@@ -121,17 +129,17 @@ public class OrderDAO {
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT * FROM orders_data WHERE order_id = ?";
+            String sql = OrderQueries.SELECT_ORDER_DETAILS;
             statement = connection.prepareStatement(sql);
             statement.setInt(1, orderId);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            while (result.next()) {
+            while (resultSet.next()) {
                 user = new User();
-                user.setId(result.getInt("client_id"));
-                timestamp = result.getTimestamp("order_time");
-                product = productDAO.getProductById(result.getInt("product_id"));
-                quantity = result.getInt("product_quantity");
+                user.setId(resultSet.getInt("client_id"));
+                timestamp = resultSet.getTimestamp("order_time");
+                product = productDAO.getProductById(resultSet.getInt("product_id"));
+                quantity = resultSet.getInt("product_quantity");
                 order = new Order(orderId, timestamp, user, product, quantity);
                 orderDetailList.add(order);
             }

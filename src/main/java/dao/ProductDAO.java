@@ -8,43 +8,43 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Класс для получения товаров из БД
+ * */
 @Slf4j
 public class ProductDAO {
 
     private Connection connection;
     private PreparedStatement statement;
+    private ResultSet resultSet;
     ConnectionManager connectionManager = new ConnectionManager();
     Product product = new Product();
 
     /**
      * Метод для получения всех продуктов определенной категории
      * Вызов происходит из ProductDisplayServlet
-     * Возвращает список товаров
+     * @param category категория товара
+     * @return список товаров
      * */
-    public List<Product> getAllProducts (String category) {
+    public List<Product> getAllProductsByCategory (String category) {
 
         List <Product> productList = new LinkedList<>();
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT * FROM goods WHERE category = ?";
+            String sql = ProductQueries.SELECT_GOODS_BY_CATEGORY;
             statement = connection.prepareStatement(sql);
             statement.setString(1, category);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            while (result.next()) {
-                product = new Product();
-                product.setId(result.getInt("id"));
-                product.setLabel(result.getString("label"));
-                product.setSize(result.getInt("size"));
-                product.setPrice(result.getInt("price"));
-                product.setDescription(result.getString("description"));
-                product.setPhoto(result.getString("photo"));
+            while (resultSet.next()) {
+                product = getProduct(resultSet);
                 productList.add(product);
             }
+            resultSet.close();
         }
         catch (SQLException err){
-            log.error("Ошибка при получении товара по id (метод ProductDAO.getProduct) " + err);
+            log.error("Ошибка при получении товара по id (метод ProductDAO.getAllProductsByCategory) " + err);
         }
         finally {
             connectionManager.closeConnection();
@@ -55,32 +55,50 @@ public class ProductDAO {
     /**
      * Метод для получения одного Продукта по id.
      * Вызывается из OrderDAO, CartServlet
+     * @param id идентификатор продукта
+     * @return товар
      * */
     public Product getProductById(int id) {
 
         try {
             connection = connectionManager.getConnection();
-            String sql = "SELECT * FROM goods WHERE id = ?";
+            String sql = ProductQueries.SELECT_GOODS_BY_ID;
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
-            if (result.next()) {
-                product = new Product();
-                product.setId(result.getInt("id"));
-                product.setLabel(result.getString("label"));
-                product.setCategory(result.getString("category"));
-                product.setSize(result.getInt("size"));
-                product.setPrice(result.getInt("price"));
-                product.setDescription(result.getString("description"));
-                product.setPhoto(result.getString("photo"));
+            if (resultSet.next()) {
+                product = getProduct(resultSet);
             }
         }
         catch (Exception err) {
-            log.error("Ошибка при получении товара по id (метод ProductDAO.find) " + err);
+            log.error("Ошибка при получении товара по id (метод ProductDAO.getProductById) " + err);
         }
         finally {
             connectionManager.closeConnection();
+        }
+        return product;
+    }
+
+    /**
+     * Метод получения товаров из ResultSet
+     * @param resultSet данные из БД
+     * @return объект продукт
+     * */
+    public Product getProduct (ResultSet resultSet) {
+
+        try {
+            product = new Product();
+            product.setId(resultSet.getInt("id"));
+            product.setLabel(resultSet.getString("label"));
+            product.setCategory(resultSet.getString("category"));
+            product.setSize(resultSet.getInt("size"));
+            product.setPrice(resultSet.getInt("price"));
+            product.setDescription(resultSet.getString("description"));
+            product.setPhoto(resultSet.getString("photo"));
+        }
+        catch (SQLException err) {
+            log.error("Ошибка при обращении к БД (метод ProductDAO.getProduct)" + err);
         }
         return product;
     }

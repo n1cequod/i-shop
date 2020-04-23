@@ -1,87 +1,50 @@
 package entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * Класс для описания объекта "Товар"
+ * */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
+    /**Идентификатор*/
     private int id;
+
+    /**
+     * Категория
+     * */
     private String category;
+
+    /**
+     * Наименование
+     * */
     private String label;
+
+    /**
+     * Размер
+     * */
     private int size;
+
+    /**
+     * Цена
+     * */
     private int price;
+
+    /**
+     * Название фото (с расширением)
+     * */
     private String photo;
+
+    /**
+     * Описание товара
+     * */
     private String description;
-
-    public Product() {
-
-    }
-
-    public Product (int id) {
-        this.id = id;
-    }
-
-    public Product (int id, String category, String label, int size, int price, String photo, String description) {
-        this.id = id;
-        this.category = category;
-        this.label = label;
-        this.size = size;
-        this.price = price;
-        this.photo = photo;
-        this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 }

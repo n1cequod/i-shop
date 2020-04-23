@@ -11,22 +11,22 @@
                 <div class="col-md-4 mt-md-0 mt-3 pl-4">
                     <h5>Информация о проекте</h5>
                     <div class="col p-0 w-75">
-                        Интернет-магазин разработна в качестве курсового проекта в рамках обучения на курсе Java Junior Developer от ИТ-Парк
+                        <small>Интернет-магазин разработна в качестве курсового проекта в рамках обучения на курсе Junior Java Developer от ИТ-Парк</small>
                     </div>
                 </div>
                 <hr class="clearfix w-100 d-md-none pb-3">
                 <div class="col-md-4 mb-md-0 mb-3 text-center">
                     <h5>Информация</h5>
-                    <p>Здесь может быть ваша реклама :)))</p>
+                    <p><small>Здесь может быть ваша реклама :)))</small></p>
                 </div>
                 <div class="col-md-4 mb-md-0 mb-3 text-center">
                     <h5>Информация</h5>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://github.com/aleksey-tsyganov">GitHub</a>
+                            <small><a href="https://github.com/aleksey-tsyganov">GitHub</a></small>
                         </li>
                         <li>
-                            <a href="#">Резюме на HH</a>
+                            <small><a href="#">Резюме на HH</a></small>
                         </li>
                     </ul>
                 </div>
@@ -35,7 +35,7 @@
 
         <!-- Copyright -->
         <div class="footer-copyright text-center" style="background-color: #83d7f3">
-            Developed by Алексей Цыганов
+            <small>Developed by Алексей Цыганов</small>
         </div>
     </footer>
 

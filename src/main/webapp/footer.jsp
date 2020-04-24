@@ -26,7 +26,7 @@
                             <small><a href="https://github.com/aleksey-tsyganov">GitHub</a></small>
                         </li>
                         <li>
-                            <small><a href="#">Резюме на HH</a></small>
+                            <small><a href="https://kazan.hh.ru/resume/d707ae0cff07ef1f890039ed1f685035733164">Резюме на HH</a></small>
                         </li>
                     </ul>
                 </div>

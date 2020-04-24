@@ -90,7 +90,8 @@ public class PersonalOrdersServlet extends HttpServlet {
             ServletUtil.redirectDispatcher(request, response, displayPage);
         }
         catch (NumberFormatException | IllegalStateException err) {
-            log.error("Ошибка при получении товаров заказа (метод doGetOrderDetail) " + err);
+            log.error("Ошибка при получении товаров заказа (метод doGetOrderDetail)", err);
+            ServletUtil.redirectErrorPage(request, response);
         }
     }
 }

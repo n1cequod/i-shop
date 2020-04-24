@@ -134,7 +134,7 @@ public class CartServlet extends HttpServlet {
             session.setAttribute("cart", cart);
         }
         catch (Exception err){
-            log.error("Ошибка при удалении одного товара из корзины (метод doGetRemoveOne) " + err);
+            log.error("Ошибка при удалении одного товара из корзины (метод doGetRemoveOne)", err);
             ServletUtil.redirectErrorPage(request, response);
         }
     }

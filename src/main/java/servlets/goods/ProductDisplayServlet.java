@@ -50,7 +50,8 @@ public class ProductDisplayServlet extends HttpServlet {
             ServletUtil.redirectDispatcher(request, response, displayPage);
         }
         catch (Exception err) {
-            log.error("Ошибка при получении данных о товарах (ProductDisplayServlet) " + err);
+            log.error("Ошибка при получении данных о товарах (ProductDisplayServlet)", err);
+            ServletUtil.redirectErrorPage(request, response);
         }
     }
 }

@@ -6,7 +6,7 @@ import org.junit.*;
 /**
  * Класс для тестирования UserDAO
  * */
-@Ignore("Тест требует наличия базы данных")
+@Ignore("Тест требует наличия БД")
 public class UserDAOTest {
 
     UserDAO userDAO;

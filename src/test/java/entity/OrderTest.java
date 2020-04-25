@@ -11,7 +11,7 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-@Ignore("Тест требует наличия базы данных")
+@Ignore("Тест требует наличия БД")
 public class OrderTest {
     Order firstOrder;
     Order secondOrder;

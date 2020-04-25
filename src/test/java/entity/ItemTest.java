@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-@Ignore("Тест требует наличия базы данных")
+@Ignore("Тест требует наличия БД")
 public class ItemTest {
     Item item;
     Product product;

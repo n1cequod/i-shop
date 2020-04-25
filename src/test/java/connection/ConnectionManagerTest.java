@@ -10,7 +10,7 @@ import java.sql.Connection;
 import static org.junit.Assert.*;
 
 
-@Ignore ("Тест требует наличия базы данных")
+@Ignore ("Тест требует наличия БД")
 public class ConnectionManagerTest {
     Connection connection = null;
     ConnectionManager connectionManager = new ConnectionManager();

@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Класс для тестирования OrderDAO
  * */
-@Ignore("Тест требует наличия базы данных")
+@Ignore("Тест требует наличия БД")
 public class OrderDAOTest {
     Order order;
     OrderDAO orderDAO;

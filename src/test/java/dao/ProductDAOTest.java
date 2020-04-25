@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Класс для тестирования ProductDAO
  * */
-@Ignore("Тест требует наличия базы данных")
+@Ignore("Тест требует наличия БД")
 public class ProductDAOTest {
     Product product;
     ProductDAO productDAO;

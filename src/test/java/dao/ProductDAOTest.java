@@ -2,6 +2,7 @@ package dao;
 
 import entity.Product;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Класс для тестирования ProductDAO
  * */
+@Ignore("Тест требует наличия базы данных")
 public class ProductDAOTest {
     Product product;
     ProductDAO productDAO;

@@ -1,9 +1,9 @@
 package entity;
 
-import dao.OrderDAO;
+
 import dao.ProductDAO;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -11,6 +11,7 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
+@Ignore("Тест требует наличия базы данных")
 public class OrderTest {
     Order firstOrder;
     Order secondOrder;

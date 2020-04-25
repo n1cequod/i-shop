@@ -2,10 +2,12 @@ package entity;
 
 import dao.ProductDAO;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+@Ignore("Тест требует наличия базы данных")
 public class ItemTest {
     Item item;
     Product product;

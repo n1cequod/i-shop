@@ -2,13 +2,15 @@ package connection;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
+
+@Ignore ("Тест требует наличия базы данных")
 public class ConnectionManagerTest {
     Connection connection = null;
     ConnectionManager connectionManager = new ConnectionManager();

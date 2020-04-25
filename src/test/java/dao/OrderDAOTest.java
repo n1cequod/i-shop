@@ -5,7 +5,6 @@ import entity.Product;
 import entity.User;
 import org.junit.*;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Класс для тестирования OrderDAO
  * */
+@Ignore("Тест требует наличия базы данных")
 public class OrderDAOTest {
     Order order;
     OrderDAO orderDAO;

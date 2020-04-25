@@ -1,20 +1,12 @@
 package dao;
 
-import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 import entity.User;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.sql.SQLException;
-
-import static org.junit.Assert.*;
+import org.junit.*;
 
 /**
  * Класс для тестирования UserDAO
  * */
+@Ignore("Тест требует наличия базы данных")
 public class UserDAOTest {
 
     UserDAO userDAO;

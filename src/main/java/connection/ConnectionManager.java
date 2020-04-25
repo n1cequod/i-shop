@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -51,6 +52,30 @@ public class ConnectionManager {
             } catch (SQLException err) {
                 log.error("Попытка закрытия подключения во время подключения к БД (метод ConnectionManager.closeConnection) " + err);
             }
+        }
+    }
+
+    /**
+     * Метод для создания подготовленного выражения
+     * @param query запрос к БД
+     * @return подготовленное выражение
+     * */
+    public PreparedStatement getPreparedStatement(String query) throws SQLException {
+        try {
+            connection = getConnection();
+            if (connection != null) {
+                return connection.prepareStatement(query);
+            }
+            else {
+                String statementErrorMsg = "Проблемы с подключением к БД при создании подготовленного выражения, метод (getPreparedStatement)";
+                log.error(statementErrorMsg);
+                throw new SQLException(statementErrorMsg);
+            }
+        }
+        catch (SQLException err) {
+            String errorMsg = "Ошибка при попытке получить подготовленное выражение";
+            log.error(errorMsg, err);
+            throw new SQLException(err);
         }
     }
 }

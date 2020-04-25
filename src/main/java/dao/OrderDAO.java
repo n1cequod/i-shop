@@ -16,8 +16,6 @@ import java.util.List;
 @Slf4j
 public class OrderDAO {
 
-    private Connection connection = null;
-    private PreparedStatement statement = null;
     private ResultSet resultSet;
     ConnectionManager connectionManager = new ConnectionManager();
 
@@ -28,10 +26,7 @@ public class OrderDAO {
      * */
     public void insert(Order order) {
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = OrderQueries.INSERT_ORDER_DATA;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(OrderQueries.INSERT_ORDER_DATA)){
             statement.setInt(1, order.getOrderId());
             statement.setInt(2, order.getUser().getId());
             statement.setInt(3, order.getProduct().getId());
@@ -55,10 +50,7 @@ public class OrderDAO {
      * */
     public int generateOrderId () {
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = OrderQueries.SELECT_MAX_ORDER_ID;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(OrderQueries.SELECT_MAX_ORDER_ID)){
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -88,10 +80,7 @@ public class OrderDAO {
         Timestamp timestamp;
         Order order;
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = OrderQueries.SELECT_ORDER_ID_AND_TIME;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(OrderQueries.SELECT_ORDER_ID_AND_TIME)){
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
@@ -127,10 +116,7 @@ public class OrderDAO {
         int quantity;
         Timestamp timestamp;
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = OrderQueries.SELECT_ORDER_DETAILS;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(OrderQueries.SELECT_ORDER_DETAILS)){
             statement.setInt(1, orderId);
             resultSet = statement.executeQuery();
 

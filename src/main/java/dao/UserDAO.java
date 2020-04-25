@@ -12,8 +12,6 @@ import java.sql.*;
 @Slf4j
 public class UserDAO {
 
-    private Connection connection;
-    private PreparedStatement statement;
     ResultSet resultSet;
     private ConnectionManager connectionManager = new ConnectionManager();
 
@@ -27,10 +25,7 @@ public class UserDAO {
 
         User user = null;
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = UserQueries.SELECT_USER;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(UserQueries.SELECT_USER)){
             statement.setString(1, email);
             statement.setString(2, password);
             resultSet = statement.executeQuery();
@@ -64,10 +59,7 @@ public class UserDAO {
 
         boolean isUser = false;
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = UserQueries.INSERT_USER;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(UserQueries.INSERT_USER)){
             statement.setString(1, firstName);
             statement.setString(2, password);
             statement.setString(3, email);

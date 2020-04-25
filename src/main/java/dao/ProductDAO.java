@@ -14,8 +14,6 @@ import java.util.List;
 @Slf4j
 public class ProductDAO {
 
-    private Connection connection;
-    private PreparedStatement statement;
     private ResultSet resultSet;
     ConnectionManager connectionManager = new ConnectionManager();
     Product product = new Product();
@@ -30,10 +28,7 @@ public class ProductDAO {
 
         List <Product> productList = new LinkedList<>();
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = ProductQueries.SELECT_GOODS_BY_CATEGORY;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(ProductQueries.SELECT_GOODS_BY_CATEGORY)){
             statement.setString(1, category);
             resultSet = statement.executeQuery();
 
@@ -60,10 +55,7 @@ public class ProductDAO {
      * */
     public Product getProductById(int id) {
 
-        try {
-            connection = connectionManager.getConnection();
-            String sql = ProductQueries.SELECT_GOODS_BY_ID;
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connectionManager.getPreparedStatement(ProductQueries.SELECT_GOODS_BY_ID)){
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 

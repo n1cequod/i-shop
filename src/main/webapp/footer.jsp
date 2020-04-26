@@ -11,7 +11,7 @@
                 <div class="col-md-4 mt-md-0 mt-3 pl-4">
                     <h5>Информация о проекте</h5>
                     <div class="col p-0 w-75">
-                        <small>Интернет-магазин разработна в качестве курсового проекта в рамках обучения на курсе Junior Java Developer от ИТ-Парк</small>
+                        <small>Интернет-магазин разработн в качестве курсового проекта в рамках обучения на курсе Junior Java Developer от ИТ-Парк</small>
                     </div>
                 </div>
                 <hr class="clearfix w-100 d-md-none pb-3">
